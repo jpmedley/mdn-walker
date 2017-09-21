@@ -2,11 +2,12 @@
 
 const sl = require('./sourcelist');
 const TEST_FILE = 'in/confluence-test.csv';
+const list = new sl.ConfluenceSourceList(TEST_FILE);
 
 function _ReadFile(excludeMatching = false) {
-  const list = new sl.ConfluenceSourceList(TEST_FILE, line => {
+  list.get(line => {
     console.log(line);
-  }, excludeMatching);
+  }, excludeMatching)
 }
 
 function ListAll() {
