@@ -2,7 +2,7 @@
 
 const path = require('path');
 const sl = require('./sourcelist');
-const URL_BASE = 'https://developer.mozilla.org/en-US/docs/Web/API';
+const URL_BASE = '/en-US/docs/Web/API';
 
 function URLList(source) {
   this.source = source;
