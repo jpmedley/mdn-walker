@@ -1,0 +1,25 @@
+{
+  "name": "mdn-walker",
+  "version": "0.0.1",
+  "description": "Takes a csv file of browser APIs and produces a list of what's missing from MDN.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpmedley/mdn-walker.git"
+  },
+  "keywords": [
+    "MDN",
+    "browsers",
+    "compatibility",
+    "API"
+  ],
+  "author": "Joseph Medley <jmedley@google.com> (https://developers.google.com/web)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jpmedley/mdn-walker/issues"
+  },
+  "homepage": "https://github.com/jpmedley/mdn-walker#readme"
+}
