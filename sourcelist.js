@@ -8,11 +8,15 @@ function SourceList(source, callback) {
   this.source = source;
 }
 
-SourceList.prototype.get = function(processFunction) {
-  fs.createReadStream(this.source)
+SourceList.prototype.get = function(callback) {
+  const source = fs.createReadStream(this.source)
   .pipe(es.split())
   .pipe(es.mapSync(line => {
-    processFunction(line);
+    if (line.indexOf('Interface') > -1) { return; }
+    if (line.length == 0) { return; }
+    source.pause();
+    callback(line);
+    source.resume();
   }))
   .on('error', e => {
     console.log('[WALKER ERR] ', e);
@@ -26,16 +30,16 @@ function ConfluenceSourceList(source) {
   SourceList.call(this, source);
 }
 
-ConfluenceSourceList.prototype.get = function(processFunction, diffs_only=false) {
+ConfluenceSourceList.prototype.get = function(callback, diffs_only=false) {
   SourceList.prototype.get.call(this, line => {
     let props = line.split(',');
     if (diffs_only) {
       if ((props[2]!=props[3]) && (props[3]=='true')) {
-        processFunction(line);
+        callback(line);
         return;
       }
     } else {
-      processFunction(line);
+      callback(line);
     }
   }, diffs_only);
 }

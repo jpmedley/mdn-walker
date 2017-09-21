@@ -24,6 +24,7 @@
   "homepage": "https://github.com/jpmedley/mdn-walker#readme",
   "dependencies": {
     "event-stream": "^3.3.4",
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "path": "^0.12.7"
   }
 }
