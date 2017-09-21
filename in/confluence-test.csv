@@ -1,0 +1,12 @@
+Interface,API,Chrome_60.0.3112.78_Windows_10.0,Chrome_59.0.3071.86_Windows_10.0
+AnalyserNode,fftSize,true,true
+AnalyserNode,frequencyBinCount,false,true
+AnalyserNode,getByteFrequencyData,true,true
+AnalyserNode,getByteTimeDomainData,true,true
+AnalyserNode,getFloatFrequencyData,true,true
+AnalyserNode,getFloatTimeDomainData,true,true
+AnalyserNode,maxDecibels,false,true
+AnalyserNode,minDecibels,true,true
+AnalyserNode,smoothingTimeConstant,true,true
+AnimationEvent,animationName,true,true
+AnimationEvent,elapsedTime,true,true
