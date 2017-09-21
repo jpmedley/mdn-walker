@@ -10,3 +10,5 @@ AnalyserNode,minDecibels,true,true
 AnalyserNode,smoothingTimeConstant,true,true
 AnimationEvent,animationName,true,true
 AnimationEvent,elapsedTime,true,true
+FootGun,load,false,true
+FootGun,fire,false,true
