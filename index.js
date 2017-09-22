@@ -5,7 +5,7 @@ const https = require('https');
 const path = require('path');
 const urllist = require('./urllist');
 
-const inputList = 'in/confluence-test.csv';
+const inputList = 'in/chrome59-60.csv';
 const options = {
   protocol: 'https:',
   host: 'developer.mozilla.org',
@@ -32,14 +32,19 @@ function testUrl(url) {
   req.end();
   req.once('response', res => {
     // console.log(res.statusCode);
-    if (res.statusCode >= 300) {
-      var link = path.join(options.protocol, options.host, url) + "\n";
+    if (res.statusCode >= 400) {
+      let pathString = path.join(options.host, url);
+      let link = options.protocol + "//" + pathString + "\n";
       fs.write(handle, link, () => {
         // console.log(arguments[0]);
       });
     }
   })
+  .on('error', (e) => {
+    // console.error(e);
+    console.log(e.code + ":" + e.message);
+  })
 }
 
 const list = new urllist.URLList(inputList);
-list.get(testUrl);
+list.get(testUrl, true);
