@@ -4,7 +4,7 @@ const es = require('event-stream');
 const fs = require('fs');
 
 //Based on: https://stackoverflow.com/questions/16010915/parsing-huge-logfiles-in-node-js-read-in-line-by-line
-function SourceList(source, callback) {
+function SourceList(source) {
   this.source = source;
 }
 
