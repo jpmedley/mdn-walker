@@ -2,6 +2,7 @@
 
 const es = require('event-stream');
 const fs = require('fs');
+const path = require('path');
 
 function Redirects() {
   let contents = fs.readFileSync('redirects.med', 'utf8');
@@ -9,13 +10,34 @@ function Redirects() {
   let me = this;
   this.redirects = new Object();
   contentsArray.forEach((item, i, items) => {
-    let oneAndTwo = item.split(';');
-    me.redirects[oneAndTwo[0]] = oneAndTwo[1];
+    if (item == '') { return; }
+    let paths = item.split(';');
+    let lookup = path.parse(paths[0]);
+    let redirect = path.parse(paths[1]);
+    if (lookup.name == '*') {
+      me.redirects[lookup.dir] = redirect.dir;
+    }
+    me.redirects[paths[0]] = paths[1];
   })
 }
 
 Redirects.prototype.get = function(find) {
-  return this.redirects[find];
+  // console.log(path.parse(find));
+  // return this.redirects[find];
+  let result;
+  result = this.redirects[find];
+  if (typeof result !== 'undefined') {
+    return result;
+  }
+  let parsed = path.parse(find);
+  let newFind = parsed.dir + "/*";
+  result = this.redirects[newFind];
+  if (typeof result != 'undefined') {
+    let parsedResult = path.parse(result);
+    result = path.join(parsedResult.dir, parsed.name);
+    return result;
+  }
+  return result;
 }
 
 exports.Redirects = Redirects;

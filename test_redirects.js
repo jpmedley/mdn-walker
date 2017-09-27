@@ -3,13 +3,24 @@
 const assert = require('assert');
 const redirects = require('./redirects');
 
-const TEST_URL = '/docs/Web/API/Window/Int16Array';
-const TEST_REDIRECT = '/docs/Web/JavaScript/Reference/Global_Objects/Int16Array';
 const rd = new redirects.Redirects();
+const MSG = "redirects.get() does not work as intended."
 
 function test_get() {
-  const msg = "redirects.get() does not work as intended."
-  assert.equal(rd.get(TEST_URL), TEST_REDIRECT, msg);
+  let givenUrl, expectedRedirect
+  givenUrl = '/docs/Web/API/Window/Date';
+  expectedRedirect = '/docs/Web/JavaScript/Reference/Global_Objects/Date';
+  assert.equal(rd.get(givenUrl), expectedRedirect, MSG);
+
+  givenUrl = '/docs/Web/API/Window/Date/now';
+  expectedRedirect = '/docs/Web/JavaScript/Reference/Global_Objects/Date/now';
+  assert.equal(rd.get(givenUrl), expectedRedirect, MSG);
+}
+
+function test_missing() {
+  const missingUrl = '/docs/Web/API/Window/Snoopy';
+  assert.equal(rd.get(missingUrl), undefined, MSG)
 }
 
 test_get();
+test_missing();
