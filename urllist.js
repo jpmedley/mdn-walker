@@ -4,7 +4,7 @@ const path = require('path');
 const sl = require('./sourcelist');
 const URL_BASE = '/en-US/docs/Web/API';
 
-function URLList(source, diffs_only=false) {
+function *URLList(source, diffs_only=false) {
   let source = source;
   let interface;
   this.list = new Array();
@@ -20,6 +20,10 @@ function URLList(source, diffs_only=false) {
     url = path.joing(URL_BASE, props[0], props[1]);
     this.list.push(url);
   }, diffs_only);
+  while (this.list.length > 0) {
+    let ret = this.list.shift();
+    yield ret;
+  }
 }
 
 // URLList.prototype.get_ = function(callback, diffs_only) {
