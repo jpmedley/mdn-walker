@@ -6,6 +6,7 @@ const path = require('path');
 const urllist = require('./urllist');
 
 const RESULTS = 'dif-results.csv';
+const RECOVERABLE_ERRORS = 'ECONNRESET,EPROTO,ETIMEDOUT'
 const inputList = 'in/chrome59-60.csv';
 const options = {
   protocol: 'https:',
@@ -45,11 +46,7 @@ do {
     }
   })
   .on('error', (e) => {
-    if (e.code == 'ECONNRESET') {
-      test.retry--;
-      list.put(test);
-    }
-    else if (e.code == 'EPROTO') {
+    if (RECOVERABLE_ERRORS.includes(e.code)) {
       test.retry--;
       list.put(test);
     }
