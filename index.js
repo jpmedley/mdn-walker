@@ -5,6 +5,7 @@ const https = require('https');
 const path = require('path');
 const urllist = require('./urllist');
 
+const RESULTS = 'dif-results.csv';
 const inputList = 'in/chrome59-60.csv';
 const options = {
   protocol: 'https:',
@@ -13,38 +14,48 @@ const options = {
 }
 
 let handle;
-fs.open('results.csv', 'w', (e, fd) => {
+if (fs.existsSync(RESULTS)) {
+  fs.unlinkSync(RESULTS);
+}
+fs.open(RESULTS, 'w', (e, fd) => {
   if (e) {
-    if (e.code === 'EEXIST') {
-      console.error("[WALKER] File already exists");
-      return;
-    } else {
-      throw e;
-    }
+    throw e;
   } else {
     handle = fd;
   }
 })
 
-function testUrl(url) {
-  options.path = url;
+const list = new urllist.URLList(inputList, true);
+do {
+  let test = list.get();
+  options.path = test.url;
   const req = https.get(options);
   req.end();
   req.once('response', res => {
-    // console.log(res.statusCode);
-    if (res.statusCode >= 400) {
-      let pathString = path.join(options.host, url);
-      let link = options.protocol + "//" + pathString + "\n";
-      fs.write(handle, link, () => {
-        // console.log(arguments[0]);
-      });
+    if (res.statusCode.toString().match(/4\d\d/)!==null) {
+      let pathString = path.join(options.host, test.url);
+      let record = options.protocol + "//" + pathString + "\n";
+      fs.write(handle, record, () => {
+        console.log(record);
+      })
+    }
+    else if (res.statusCode.toString().match(/5\d\d/)!=null) {
+      test.retry--;
+      list.put(test);
     }
   })
   .on('error', (e) => {
-    // console.error(e);
-    console.log(e.code + ":" + e.message);
+    if (e.code == 'ECONNRESET') {
+      test.retry--;
+      list.put(test);
+    }
+    else if (e.code == 'EPROTO') {
+      test.retry--;
+      list.put(test);
+    }
+    else {
+      console.log(e.code + ":" + e.message);
+    }
   })
-}
-
-const list = new urllist.URLList(inputList);
-list.get(testUrl, true);
+} while (list.length() > 0);
+console.log("All Mozilla URLs have been checked.");
