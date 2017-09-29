@@ -3,50 +3,35 @@
 const path = require('path');
 const sl = require('./sourcelist');
 const URL_BASE = '/en-US/docs/Web/API';
+const RETRY_COUNT = 3;
 
 function URLList(source, diffs_only=false) {
-  let interfaceName;
   this.list = new Array();
-  let reader = new sl.ConfluenceSourceList(source);
-  reader.get(line => {
+  this.length = () => { return this.list.length; }
+  let csl = new sl.ConfluenceSourceList(source);
+  do {
     let url;
+    let interfaceName;
+    let line = csl.get(diffs_only);
     let props = line.split(',');
     if (props[0]!=interfaceName) {
       interfaceName = props[0];
       url = path.join(URL_BASE, props[0]);
-      this.list.push(url);
+      let urlEntry = { url: url, retry: RETRY_COUNT }
+      this.list.push(urlEntry)
     }
-    url = path.joing(URL_BASE, props[0], props[1]);
-    this.list.push(url);
-  }, diffs_only);
+    url = path.join(URL_BASE, props[0], props[1]);
+    let urlEntry = { url: url, retry: RETRY_COUNT }
+    this.list.push(urlEntry)
+  } while (csl.length() > 0);
 }
 
-URLList.prototype._get = function*() {
-  while (this.list.length > 0) {
-    let ret = this.list.shift();
-    yield ret;
-  }
+URLList.prototype.get = function() {
+  return this.list.shift();
 }
 
-URLList.prototype.next = function() {
-  // Double-layered so that client code does not need to do what
-  //  I've done below.
-  return this._get().next();
+URLList.prototype.put = function(urlEntry) {
+  this.list.push(urlEntry);
 }
-
-// URLList.prototype.get_ = function(callback, diffs_only) {
-//   this.list = new sl.ConfluenceSourceList(this.source);
-//   this.list.get(line => {
-//     let url;
-//     const props = line.split(',');
-//     if (props[0]!=this.interfaceName){
-//       this.interfaceName = props[0];
-//       url = path.join(URL_BASE, props[0]);
-//       callback(url);
-//     }
-//     url = path.join(URL_BASE, props[0], props[1]);
-//     callback(url);
-//   }, diffs_only);
-// }
 
 exports.URLList = URLList;

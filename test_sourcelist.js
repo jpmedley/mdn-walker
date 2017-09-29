@@ -36,4 +36,4 @@ function ExcludeMatching() {
 }
 
 ExcludeMatching();
-// ListAll();
+ListAll();

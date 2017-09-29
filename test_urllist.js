@@ -14,27 +14,49 @@ function ListAll() {
   const options = {excludeMatching: false};
   const list = _TestSetup(options);
   do {
-    next = list.next();
-    // assert.assert(next.value, 'It worked.');
-  } while (next.done == false);
+    next = list.get();
+  } while (list.length() > 0);
+  assert.ok(true);
 }
 
-// function _ReadURLList(excludeMatching = false) {
-//   list.get(line => {
-//     console.log(line);
-//   }, excludeMatching)
-// }
-//
-// function ListAll() {
-//   console.log('\n[WALKER TEST] Starting URLList with ' + TEST_FILE + '.');
-//   _ReadURLList();
-// }
-//
-// function ExcludeMatching() {
-//   console.log('\n[WALKER TEST] Starting URLList with ' + TEST_FILE +
-//               ', excluding unchanged APIs.');
-//   _ReadURLList(true);
-// }
+function ExcludeMatching() {
+  let next;
+  const options = {excludeMatching: true};
+  const list = _TestSetup(options);
+  do {
+    next = list.get();
+  } while (list.length() > 0);
+  assert.ok(true);
+}
 
-// ExcludeMatching();
+function decrementRetriesAll() {
+  let next;
+  const options = {excludeMatching: false};
+  const list = _TestSetup(options);
+  do {
+    next = list.get();
+    next.retry--;
+    if (next.retry > 0) {
+      list.put(next);
+    }
+  } while (list.length() > 0)
+  assert.ok(true);
+}
+
+function decrementRetriesExclude() {
+  let next;
+  const options = {excludeMatching: true};
+  const list = _TestSetup(options);
+  do {
+    next = list.get();
+    next.retry--;
+    if (next.retry > 0) {
+      list.put(next);
+    }
+  } while (list.length() > 0)
+  assert.ok(true);
+}
 ListAll();
+ExcludeMatching();
+decrementRetriesAll();
+decrementRetriesExclude();
