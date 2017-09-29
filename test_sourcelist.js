@@ -2,7 +2,8 @@
 
 const assert = require('assert');
 const sl = require('./sourcelist');
-const TEST_FILE = 'in/confluence-test.csv';
+// const TEST_FILE = 'in/confluence-test.csv';
+const TEST_FILE = 'in/chrome59-60.csv';
 
 function _TestSetup() {
   return new sl.ConfluenceSourceList(TEST_FILE);

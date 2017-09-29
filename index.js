@@ -58,4 +58,3 @@ do {
     }
   })
 } while (list.length() > 0);
-console.log("All Mozilla URLs have been checked.");
