@@ -3,48 +3,46 @@
 const es = require('event-stream');
 const fs = require('fs');
 
-//Based on: https://stackoverflow.com/questions/16010915/parsing-huge-logfiles-in-node-js-read-in-line-by-line
 function SourceList(source) {
-  this.source = source;
+  let buffer = fs.readFileSync(source)
+  this.lines = buffer.toString().split(/\n/);
+  this.length = () => { return this.lines.length; }
 }
 
 SourceList.prototype.get = function(callback) {
-  const source = fs.createReadStream(this.source)
-  .pipe(es.split())
-  .pipe(es.mapSync(line => {
-    if (line.indexOf('Interface') > -1) { return; }
-    if (line.length == 0) { return; }
-    source.pause();
-    callback(line);
-    source.resume();
-  }))
-  .on('error', e => {
-    console.log('[WALKER ERR] ', e);
-  })
-  .on('end', () => {
-    console.log('[WALKER] Finished reading list.');
-  });
+  return this.lines.shift();
 }
 
 function ConfluenceSourceList(source) {
   SourceList.call(this, source);
+  if (this.lines[0].includes('Interface')) {
+    this.lines.shift();
+  }
+  this.lines = this.lines.filter((line) => {
+    return line.includes(',');
+  })
 }
 
-ConfluenceSourceList.prototype.get = function(callback, diffs_only=false) {
-  SourceList.prototype.get.call(this, line => {
+ConfluenceSourceList.prototype.get = function(diffs_only=false) {
+  const me = this;
+  function returnLine(){
+    let line = SourceList.prototype.get.call(me);
     let props = line.split(',');
     if (diffs_only) {
       if ((props[2]!=props[3]) && (props[3]=='true')) {
-        callback(line);
-        return;
+        return line
       }
-    } else {
-      callback(line);
+      else {
+        return returnLine();
+      }
     }
-  }, diffs_only);
+    else {
+      return line;
+    }
+  }
+  return returnLine();
 }
 
-// ConfluenceSourceList.prototype = Object.create(SourceList.prototype);
 ConfluenceSourceList.prototype.constructor = ConfluenceSourceList;
 
 exports.ConfluenceSourceList = ConfluenceSourceList;
