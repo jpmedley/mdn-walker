@@ -5,9 +5,12 @@ const https = require('https');
 const path = require('path');
 const urllist = require('./urllist');
 
-const RESULTS = 'dif-results.csv';
+const RESULTS = process.argv[2];
+// const RESULTS = 'dif-results.csv';
 const RECOVERABLE_ERRORS = 'ECONNRESET,EPROTO,ETIMEDOUT'
-const inputList = 'in/chrome59-60.csv';
+const inputList = process.argv[3];
+// const inputList = 'in/chrome59-60.csv';
+const diffsOnly = process.argv[4] || false;
 const options = {
   protocol: 'https:',
   host: 'developer.mozilla.org',
@@ -26,7 +29,7 @@ fs.open(RESULTS, 'w', (e, fd) => {
   }
 })
 
-const list = new urllist.URLList(inputList, true);
+const list = new urllist.URLList(inputList, diffsOnly);
 do {
   let test = list.get();
   options.path = test.url;
