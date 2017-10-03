@@ -6,6 +6,7 @@ const path = require('path');
 const urllist = require('./urllist');
 
 const RESULTS = process.argv[2];
+const RESULTS_DIR = 'results';
 // const RESULTS = 'dif-results.csv';
 const RECOVERABLE_ERRORS = 'ECONNRESET,EPROTO,ETIMEDOUT'
 const inputList = process.argv[3];
@@ -18,10 +19,11 @@ const options = {
 }
 
 let handle;
-if (fs.existsSync(RESULTS)) {
-  fs.unlinkSync(RESULTS);
+let outPath = path.join(RESULTS_DIR, RESULTS);
+if (fs.existsSync(outPath)) {
+  fs.unlinkSync(outPath);
 }
-fs.open(RESULTS, 'w', (e, fd) => {
+fs.open(outPath, 'w', (e, fd) => {
   if (e) {
     throw e;
   } else {
