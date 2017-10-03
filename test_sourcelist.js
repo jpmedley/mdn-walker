@@ -2,39 +2,65 @@
 
 const assert = require('assert');
 const sl = require('./sourcelist');
-// const TEST_FILE = 'in/confluence-test.csv';
-const TEST_FILE = 'in/chrome59-60.csv';
+const TEST_FILE = 'testfiles/small-test.csv';
+// const TEST_FILE = 'in/chrome59-60.csv';
+const MALFORMED_TEST_FILE = 'testfiles/malformed-test.csv';
 
-function _TestSetup() {
-  return new sl.ConfluenceSourceList(TEST_FILE);
+function _testSetup(fileName = TEST_FILE) {
+  if (!fileName) { fileName = TEST_FILE};
+  return new sl.ConfluenceSourceList(fileName);
 }
 
-function _RunTests(value) {
+function _runTests(value) {
   if (!value.includes(',')) { return false; }
   let values = value.split(',');
-  if (!values.length == 4) { return false; }
+  if (values.length !== 4) { return false; }
   if (!'truefalse'.includes(values[2])) { return false; }
   if (!'truefalse'.includes(values[3])) { return false; }
   return true;
 }
 
-function ListAll() {
+function countAll() {
   let next;
-  const list = _TestSetup();
+  let count = 0;
+  const list = _testSetup();
   do {
     next = list.get(false);
-    assert.ok(_RunTests(next));
+    count++;
   } while (list.length() > 0);
+  assert.equal(count, 13);
 }
 
-function ExcludeMatching() {
+function countChanges() {
   let next;
-  const list = _TestSetup();
+  let count = 0;
+  const list = _testSetup();
   do {
     next = list.get(true);
-    assert.ok(_RunTests(next));
+    count++;
+  } while (list.length() > 0);
+  assert.equal(count, 4);
+}
+
+function listAll() {
+  let next;
+  const list = _testSetup();
+  do {
+    next = list.get(false);
+    assert.ok(_runTests(next));
   } while (list.length() > 0);
 }
 
-ExcludeMatching();
-ListAll();
+function testFormedness() {
+  let next;
+  const list = _testSetup(MALFORMED_TEST_FILE);
+  do {
+    next = list.get(false);
+    assert.deepStrictEqual(_runTests(next), false);
+  } while (list.length() > 0);
+}
+
+countAll();
+countChanges();
+listAll();
+testFormedness();

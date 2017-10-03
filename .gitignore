@@ -58,5 +58,5 @@ typings/
 .env
 
 # Project-specific
-*.csv
+in/
 trial.js

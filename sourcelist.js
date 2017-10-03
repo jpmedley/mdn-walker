@@ -24,17 +24,18 @@ function ConfluenceSourceList(source) {
 }
 
 ConfluenceSourceList.prototype.get = function(diffs_only=false) {
-  // const me = this;
   let line;
-  if (diffs_only) {
-    do {
-      line = SourceList.prototype.get.call(this);
-      return line
-    } while (line.includes('false,true'))
-  }
-  else {
-    return SourceList.prototype.get.call(this);
-  }
+  do {
+    line = SourceList.prototype.get.call(this);
+    if (diffs_only) {
+      if (line.includes('false,true')) {
+        return line;
+      }
+    }
+    else if (!diffs_only) {
+      return line;
+    }
+  } while (line);
 }
 
 ConfluenceSourceList.prototype.constructor = ConfluenceSourceList;
