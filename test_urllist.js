@@ -3,60 +3,63 @@
 const assert = require('assert');
 const urllist = require('./urllist');
 
-const TEST_FILE = 'in/confluence-test.csv';
+const TEST_FILE = 'testfiles/small-test.csv';
 
-function _TestSetup(options) {
+function _testSetup(options) {
   return new urllist.URLList(TEST_FILE, options.excludeMatching);
 }
 
-function ListAll() {
-  let next;
-  const options = {excludeMatching: false};
-  const list = _TestSetup(options);
-  do {
-    next = list.get();
-  } while (list.length() > 0);
-  assert.ok(true);
+function countAll() {
+  const options = { excludeMatching: false };
+  const list = _testSetup(options);
+  assert.equal(list.length(), 16);
 }
 
-function ExcludeMatching() {
-  let next;
-  const options = {excludeMatching: true};
-  const list = _TestSetup(options);
-  do {
-    next = list.get();
-  } while (list.length() > 0);
-  assert.ok(true);
+function countChanges() {
+  const options = { excludeMatching: true };
+  const list = _testSetup(options);
+  assert.equal(list.length(), 6);
 }
 
-function decrementRetriesAll() {
+function testCyclingAll() {
+  const options = { excludeMatching: false };
+  const list = _testSetup(options);
+  const testString = '/en-US/docs/Web/API/AnalyserNode';
   let next;
-  const options = {excludeMatching: false};
-  const list = _TestSetup(options);
+  let index = 3;
   do {
     next = list.get();
+    if (next.url == testString) {
+      assert.equal(next.retry, index);
+      index--
+    }
     next.retry--;
     if (next.retry > 0) {
       list.put(next);
     }
-  } while (list.length() > 0)
-  assert.ok(true);
+  } while (list.length() > 0);
 }
 
-function decrementRetriesExclude() {
+function testCyclingExclude() {
+  const options = { excludeMatching: true };
+  const list = _testSetup(options);
+  const testString = '/en-US/docs/Web/API/AnalyserNode';
   let next;
-  const options = {excludeMatching: true};
-  const list = _TestSetup(options);
+  let index = 3;
   do {
     next = list.get();
-    next.retry--;
+    if (next.url == testString) {
+      assert.equal(next.retry, index);
+      index--;
+    }
+    next.retry--
     if (next.retry > 0) {
       list.put(next);
     }
-  } while (list.length() > 0)
-  assert.ok(true);
+  } while (list.length() > 0);
 }
-ListAll();
-ExcludeMatching();
-decrementRetriesAll();
-decrementRetriesExclude();
+
+countAll();
+countChanges();
+testCyclingAll();
+testCyclingExclude();

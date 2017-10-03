@@ -9,9 +9,9 @@ function URLList(source, diffs_only=false) {
   this.list = new Array();
   this.length = () => { return this.list.length; }
   let csl = new sl.ConfluenceSourceList(source);
+  let interfaceName;
   do {
     let url;
-    let interfaceName;
     let line = csl.get(diffs_only);
     let props = line.split(',');
     if (props[0]!=interfaceName) {
