@@ -5,42 +5,32 @@ const https = require('https');
 const path = require('path');
 const urllist = require('./urllist');
 
-const RESULTS = process.argv[2];
-const RESULTS_DIR = 'results';
-// const RESULTS = 'dif-results.csv';
 const RECOVERABLE_ERRORS = 'ECONNRESET,EPROTO,ETIMEDOUT'
-const inputList = process.argv[3];
-// const inputList = 'in/chrome59-60.csv';
-const diffsOnly = process.argv[4] || false;
+const RESULTS_DIR = 'results';
+
 const options = {
+  resultsFile: process.argv[2],
+  inputList: process.argv[3],
+  diffsOnly: process.argv[4] || false
+}
+
+const httpOptions = {
   protocol: 'https:',
   host: 'developer.mozilla.org',
   path: ''
 }
 
-let handle;
-let outPath = path.join(RESULTS_DIR, RESULTS);
-if (fs.existsSync(outPath)) {
-  fs.unlinkSync(outPath);
-}
-fs.open(outPath, 'w', (e, fd) => {
-  if (e) {
-    throw e;
-  } else {
-    handle = fd;
-  }
-})
-
-const list = new urllist.URLList(inputList, diffsOnly);
+const handle = getOutputFile(options.resultsFile);
+const list = new urllist.URLList(options.inputList, options.diffsOnly);
 do {
   let test = list.get();
-  options.path = test.url;
-  const req = https.get(options);
+  httpOptions.path = test.url;
+  const req = https.get(httpOptions);
   req.end();
   req.once('response', res => {
     if (res.statusCode.toString().match(/4\d\d/)!==null) {
-      let pathString = path.join(options.host, test.url);
-      let record = options.protocol + "//" + pathString + "\n";
+      let pathString = path.join(httpOptions.host, test.url);
+      let record = httpOptions.protocol + "//" + pathString + "\n";
       fs.write(handle, record, () => {
         console.log(record);
       })
@@ -49,6 +39,8 @@ do {
       test.retry--;
       list.put(test);
     }
+    // Free the memory used by res data.
+    res.resume();
   })
   .on('error', (e) => {
     if (RECOVERABLE_ERRORS.includes(e.code)) {
@@ -60,3 +52,11 @@ do {
     }
   })
 } while (list.length() > 0);
+
+function getOutputFile(fileName) {
+  const outPath = path.join(RESULTS_DIR, fileName);
+  if (fs.existsSync(outPath)) {
+    fs.unlinkSync(outPath);
+  }
+  return fs.openSync(outPath, 'w');
+}
