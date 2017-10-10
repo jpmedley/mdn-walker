@@ -17,7 +17,10 @@ Pinger.prototype.ping = function(entry) {
   let me = this;
   https.get(this.options, (res) => {
     me.statusCode = res.statusCode;
-    if (res.statusCode.toString().match(/4\d\d/)!==null) {
+    if (res.statusCode.toString().match(/3\d\d/)!=null) {
+      this.emit('found');
+    }
+    else if (res.statusCode.toString().match(/4\d\d/)!==null) {
       this.emit('missing', entry);
     }
     else if (res.statusCode.toString().match(/5\d\d/)!=null) {
@@ -41,43 +44,5 @@ Pinger.prototype.ping = function(entry) {
     })
   })
 }
-
-// Pinger.prototype.ping = function(path) {
-//   this.options.path = path;
-//   let me = this;
-//   https.get(this.options, (res) => {
-//     me.statusCode = res.statusCode;
-//     if (res.statusCode.toString().match(/4\d\d/)!==null) {
-//       this.emit('missing', {
-//         path: path
-//       });
-//     }
-//     else if (res.statusCode.toString().match(/5\d\d/)!=null) {
-//       this.emit('needsretry', {
-//         path: path
-//       });
-//     }
-//     res.on('data', (chunk) => {
-//       res.resume();
-//     })
-//     res.on('end', () => {
-//       if (this.statusCode.toString().match(/2\d\d/)!=null) {
-//         this.emit('found', {
-//           path: path
-//         });
-//       }
-//     });
-//   })
-//   .on('error', (e) => {
-//     if (RECOVERABLE_ERRORS.includes(e.code)) {
-//       this.emit('needsretry', {
-//         path: path
-//       })
-//     }
-//     else {
-//       throw e;
-//     }
-//   })
-// }
 
 exports.Pinger = Pinger;
