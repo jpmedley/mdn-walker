@@ -3,8 +3,15 @@
 const assert = require('assert');
 const pinger = require('./pinger');
 
-const VALID_URL = 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTime';
-const INVALID_URL = 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getSpock';
+const VALID_URL = {
+  url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTime',
+  retry: 3
+}
+
+const INVALID_URL = {
+  url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getSpock',
+  retry: 3
+}
 
 const httpOptions = {
   protocol: 'https:',
@@ -18,7 +25,7 @@ const httpOptions = {
 const pngr = new pinger.Pinger(httpOptions);
 
 pngr.addListener('found', (e) => {
-  console.log(e);
+  console.log("Nothing to report.");
 });
 
 pngr.addListener('needsretry', (e) => {
