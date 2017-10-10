@@ -6,17 +6,17 @@ const TEST_FILE = 'testfiles/small-test.csv';
 const BULK_TEST_FILE = 'testfiles/bulk-test.csv';
 const MALFORMED_TEST_FILE = 'testfiles/malformed-test.csv';
 
-function _testSetup(fileName = TEST_FILE) {
-  if (!fileName) { fileName = TEST_FILE};
-  return new sl.ConfluenceSourceList(fileName);
+function _testSetup(options) {
+  return new sl.ConfluenceSourceList(options.fileName, options.differencesOnly);
 }
 
 function countAll() {
   let next;
   let count = 0;
-  const list = _testSetup();
+  const options = { fileName: TEST_FILE, differencesOnly: false };
+  const list = _testSetup(options);
   do {
-    next = list.get(false);
+    next = list.get();
     count++;
   } while (list.length() > 0);
   assert.equal(count, 13);
@@ -27,20 +27,22 @@ function countChanges() {
   let next;
   let count = 0;
   let list;
+  const options = { fileName: TEST_FILE, differencesOnly: true };
 
   // Test differences on small file.
-  list = _testSetup();
+  list = _testSetup(options);
   do {
-    next = list.get(true);
+    next = list.get();
     count++;
   } while (list.length() > 0);
   assert.equal(count, 4);
 
   // Test differences on big file.
   count = 0;
-  list = _testSetup(BULK_TEST_FILE);
+  options.fileName = BULK_TEST_FILE;
+  list = _testSetup(options);
   do {
-    next = list.get(true);
+    next = list.get();
     count++;
   } while (list.length() > 0);
   assert.equal(count, 11);
@@ -48,18 +50,21 @@ function countChanges() {
 
 function listAll() {
   let next;
-  const list = _testSetup();
+  const options = { fileName: TEST_FILE, differencesOnly: false };
+  const list = _testSetup(options);
   do {
-    next = list.get(false);
+    next = list.get();
     assert.ok(_testFormedness(next));
   } while (list.length() > 0);
 }
 
 function testFormedness() {
   let next;
-  const list = _testSetup(MALFORMED_TEST_FILE);
+
+  const options = { fileName: MALFORMED_TEST_FILE, differencesOnly: false };
+  const list = _testSetup(options);
   do {
-    next = list.get(false);
+    next = list.get();
     assert.deepStrictEqual(_testFormedness(next), false);
   } while (list.length() > 0);
 }
