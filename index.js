@@ -24,59 +24,34 @@ const handle = getOutputFile(options.resultsFile);
 const list = new urllist.URLList(options.inputList, options.diffsOnly);
 const pngr = new pinger.Pinger(httpOptions);
 
-pngr.addListener('needsretry', (e) => {
-  // console.log(e);
-  if (e.retry > 0) {
-    e.retry--;
+pngr.addListener('needsretry', (entry) => {
+  if (entry.retry > 0) {
+    entry.retry--;
   }
   list.put(e);
+  newTest();
 });
 
-pngr.addListener('missing', (e) => {
-  // console.log(e);
+pngr.addListener('missing', (entry) => {
+  let pathString = path.join(httpOptions.host, entry.url);
+  let record = httpOptions.protocol + "//" + pathString + "\n";
   fs.write(handle, record, () => {
     console.log(record);
-  })
+  });
+  newTest();
 })
 
-do {
-  let test = list.get();
-  pngr.ping(test);
-} while (list.length() > 0);
+pngr.addListener('found', () => {
+  newTest();
+})
 
+newTest();
 
-
-
-// (do {
-//   let test = list.get();
-//   httpOptions.path = test.url;
-//   const req = https.get(httpOptions);
-//   req.end();
-//   req.once('response', res => {
-//     if (res.statusCode.toString().match(/4\d\d/)!==null) {
-//       let pathString = path.join(httpOptions.host, test.url);
-//       let record = httpOptions.protocol + "//" + pathString + "\n";
-//       fs.write(handle, record, () => {
-//         console.log(record);
-//       })
-//     }
-//     else if (res.statusCode.toString().match(/5\d\d/)!=null) {
-//       test.retry--;
-//       list.put(test);
-//     }
-//     // Free the memory used by res data.
-//     res.resume();
-//   })
-//   .on('error', (e) => {
-//     if (RECOVERABLE_ERRORS.includes(e.code)) {
-//       test.retry--;
-//       list.put(test);
-//     }
-//     else {
-//       console.log(e.code + ":" + e.message);
-//     }
-//   })
-// } while (list.length() > 0);)
+function newTest() {
+  if (list.length() > 0) {
+    pngr.ping(list.get());
+  }
+}
 
 function getOutputFile(fileName) {
   const outPath = path.join(RESULTS_DIR, fileName);
