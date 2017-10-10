@@ -3,18 +3,10 @@
 const es = require('event-stream');
 const fs = require('fs');
 
-function SourceList(source) {
-  let buffer = fs.readFileSync(source)
-  this.lines = buffer.toString().split(/\n/);
-  this.length = () => { return this.lines.length; }
-}
-
-SourceList.prototype.get = function(callback) {
-  return this.lines.shift();
-}
-
 function ConfluenceSourceList(source) {
-  SourceList.call(this, source);
+    let buffer = fs.readFileSync(source);
+    this.lines = buffer.toString().split(/\n/);
+    this.length = () => { return this.lines.length; }
   if (this.lines[0].includes('Interface')) {
     this.lines.shift();
   }
@@ -26,7 +18,7 @@ function ConfluenceSourceList(source) {
 ConfluenceSourceList.prototype.get = function(diffs_only=false) {
   let line;
   do {
-    line = SourceList.prototype.get.call(this);
+    line = this.lines.shift();
     if (diffs_only) {
       if (line.includes('false,true')) {
         return line;
@@ -41,4 +33,3 @@ ConfluenceSourceList.prototype.get = function(diffs_only=false) {
 ConfluenceSourceList.prototype.constructor = ConfluenceSourceList;
 
 exports.ConfluenceSourceList = ConfluenceSourceList;
-exports.SourceList = SourceList;
