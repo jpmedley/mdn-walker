@@ -35,7 +35,7 @@ ConfluenceSourceList.prototype.get = function(diffs_only=false) {
     else if (!diffs_only) {
       return line;
     }
-  } while (line);
+  } while (this.length() > 0);
 }
 
 ConfluenceSourceList.prototype.constructor = ConfluenceSourceList;

@@ -28,7 +28,7 @@ pngr.addListener('needsretry', (entry) => {
   if (entry.retry > 0) {
     entry.retry--;
   }
-  list.put(e);
+  list.put(entry);
   newTest();
 });
 
