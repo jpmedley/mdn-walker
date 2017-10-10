@@ -24,8 +24,10 @@
   "homepage": "https://github.com/jpmedley/mdn-walker#readme",
   "dependencies": {
     "child_process": "^1.0.2",
+    "event": "^1.0.0",
     "event-stream": "^3.3.4",
     "fs": "0.0.1-security",
+    "node.extend": "^2.0.0",
     "path": "^0.12.7",
     "sys": "0.0.1"
   }
