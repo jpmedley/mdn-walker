@@ -45,7 +45,7 @@ function countChanges() {
     next = list.get();
     count++;
   } while (list.length() > 0);
-  assert.equal(count, 11);
+  assert.equal(count, 10);
 }
 
 function listAll() {

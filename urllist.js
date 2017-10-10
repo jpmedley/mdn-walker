@@ -5,14 +5,14 @@ const sl = require('./sourcelist');
 const URL_BASE = '/en-US/docs/Web/API';
 const RETRY_COUNT = 3;
 
-function URLList(source, diffs_only=false) {
+function URLList(source, diffsOnly=false) {
   this.list = new Array();
   this.length = () => { return this.list.length; }
-  let csl = new sl.ConfluenceSourceList(source);
+  let csl = new sl.ConfluenceSourceList(source, diffsOnly);
   let interfaceName;
   do {
     let url;
-    let line = csl.get(diffs_only);
+    let line = csl.get();
     let props = line.split(',');
     if (props[0]!=interfaceName) {
       interfaceName = props[0];
