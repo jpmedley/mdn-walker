@@ -58,6 +58,6 @@ typings/
 .env
 
 # Project-specific
-in/
-results/
+in/*
+results/*
 trial.js

@@ -45,14 +45,6 @@ pngr.addListener('found', () => {
   newTest();
 })
 
-newTest();
-
-function newTest() {
-  if (list.length() > 0) {
-    pngr.ping(list.get());
-  }
-}
-
 function getOutputFile(fileName) {
   const outPath = path.join(RESULTS_DIR, fileName);
   if (fs.existsSync(outPath)) {

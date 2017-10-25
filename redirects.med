@@ -28,3 +28,5 @@
 /docs/Web/API/Window/Map/*;/docs/Web/JavaScript/Reference/Global_Objects/Map/*
 /docs/Web/API/Window/Set/*;/docs/Web/JavaScript/Reference/Global_Objects/Set/*
 /docs/Web/API/Window/WeakSet/*;/docs/Web/JavaScript/Reference/Global_Objects/WeakSet/*
+/docs/Web/API/HTMLBodyElement/onmessageerror;/docs/Web/API/WindowEventHandlers/onmessageerror
+/docs/Web/API/Window/onmessageerror;/docs/Web/API/WindowEventHandlers/onmessageerror
