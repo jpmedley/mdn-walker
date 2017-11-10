@@ -4,6 +4,7 @@ const fs = require('fs');
 const https = require('https');
 const path = require('path');
 const pinger = require('./pinger');
+const redirects = require('./redirects');
 const urllist = require('./urllist');
 
 const RESULTS_DIR = 'results';
@@ -23,12 +24,15 @@ const httpOptions = {
 const handle = getOutputFile(options.resultsFile);
 const list = new urllist.URLList(options.inputList, options.diffsOnly);
 const pngr = new pinger.Pinger(httpOptions);
+const reds = new redirects.Redirects();
 
 newTest();
 
 function newTest() {
   if (list.length()) {
-    pngr.ping(list.get());
+    let urlObj = list.get();
+    urlObj.url = reds.get(urlObj.url) || urlObj.url;
+    pngr.ping(urlObj);
   }
 }
 

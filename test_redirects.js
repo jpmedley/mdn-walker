@@ -6,7 +6,7 @@ const redirects = require('./redirects');
 const rd = new redirects.Redirects();
 
 function test_get() {
-  let givenUrl, expectedRedirect
+  let givenUrl, expectedRedirect;
   givenUrl = '/docs/Web/API/Window/Date';
   expectedRedirect = '/docs/Web/JavaScript/Reference/Global_Objects/Date';
   const msg = "redirects.get() does not work as intended."
@@ -19,9 +19,18 @@ function test_get() {
 
 function test_missing() {
   const missingUrl = '/docs/Web/API/Window/Snoopy';
-  const msg = "redirects.missing() does not work as intended."
+  const msg = "redirects.get() does not work as intended."
   assert.equal(rd.get(missingUrl), undefined, msg)
+}
+
+function test_URLTypes() {
+  let givenURL, expectedRedirect, msg;
+  givenURL = '/docs/Web/API/DOMMatrix/a';
+  expectedRedirect = '/docs/Web/API/DOMMatrix';
+  msg = "The " + givenURL + "URL does not redirect as intended"
+  assert.equal(rd.get(givenURL), expectedRedirect, msg);
 }
 
 test_get();
 test_missing();
+test_URLTypes();
