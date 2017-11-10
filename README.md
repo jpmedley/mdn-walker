@@ -1,5 +1,13 @@
 # mdn-walker
-Takes a csv file output by the [API Confluence](http://web-confluence.appspot.com/#!/) tool and produces a list of what's missing from MDN. This works becaue MDN URLs are regularized enough that URLs can be inferred from the names of interfaces and interface members. The tool constructs these inferred URLs and pings MDN. URLs that are not found are dumped into test file.
+Takes a csv file output by the [API Confluence](http://web-confluence.appspot.com/#!/) tool and produces a list of what's missing from MDN. This works becaue MDN URLs are regularized enough that URLs can be inferred from the names of interfaces and interface members. The csv file is constructed through the Confluence interace by configuring the catalog to show two successive versions of the same browser. The output csv file contains lines like the following:
+
+    Footgun,load(),false,true
+    
+When the script finds lines like these, it constructs a URL like:
+
+    https://developer.mozilla.org/en-US/docs/Web/API/Footgun/load
+
+The tool pings this URL. If it's not found, it's dumped into a text file.
 
 ## Notes
 
