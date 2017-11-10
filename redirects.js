@@ -22,8 +22,6 @@ function Redirects() {
 }
 
 Redirects.prototype.get = function(find) {
-  // console.log(path.parse(find));
-  // return this.redirects[find];
   let result;
   result = this.redirects[find];
   if (typeof result !== 'undefined') {
