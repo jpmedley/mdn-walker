@@ -1,6 +1,18 @@
+/docs/Web/API/SharedArrayBuffer/*;/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer/*
+/docs/Web/API/WebAssembly/*;/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/*
+/docs/Web/API/Window/Atomics/*;/docs/Web/JavaScript/Reference/Global_Objects/Atomics/*
+/docs/Web/API/Window/BudgetService;/docs/Web/API/BudgetService
+/docs/Web/API/Window/InputEvent;/docs/Web/API/InputEvent
 /docs/Web/API/Window/isFinite;/docs/Web/JavaScript/Reference/Global_Objects/isFinite
-/docs/Web/API/Number/isNaN;/docs/Web/JavaScript/Reference/Global_Objects/isNaN
+/docs/Web/API/Window/Number/*;/docs/Web/JavaScript/Reference/Global_Objects/Number/*
 /docs/Web/API/Window/parseFloat;/docs/Web/JavaScript/Reference/Global_Objects/parseFloat
+/docs/Web/API/Window/PaymentAddress;/docs/Web/API/PaymentAddress
+/docs/Web/API/Window/PaymentRequest;/docs/Web/API/PaymentRequest
+/docs/Web/API/Window/PaymentRequestUpdateEvent;/docs/Web/API/PaymentRequestUpdateEvent
+/docs/Web/API/Window/PaymentResponse;/docs/Web/API/PaymentResponse
+/docs/Web/API/Window/PerformancePaintTiming;/docs/Web/API/PerformancePaintTiming
+/docs/Web/API/Window/SharedArrayBuffer/*;/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer/*
+
 /docs/Web/API/Window/parseInt;/docs/Web/JavaScript/Reference/Global_Objects/parseInt
 /docs/Web/API/Window/decodeURI;/docs/Web/JavaScript/Reference/Global_Objects/decodeURI
 /docs/Web/API/Window/decodeURIComponent;/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent
@@ -10,7 +22,6 @@
 /docs/Web/API/Window/RangeError/*;/docs/Web/JavaScript/Reference/Global_Objects/RangeError/*
 /docs/Web/API/Window/ReferenceError/*;/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError/*
 /docs/Web/API/Window/SyntaxError/*;/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError/*
-/docs/Web/API/Window/Number/*;/docs/Web/JavaScript/Reference/Global_Objects/Number/*
 /docs/Web/API/Window/Math/*;/docs/Web/JavaScript/Reference/Global_Objects/Math/*
 /docs/Web/API/Window/Date/*;/docs/Web/JavaScript/Reference/Global_Objects/Date/*
 /docs/Web/API/Window/String/*;/docs/Web/JavaScript/Reference/Global_Objects/String/*
