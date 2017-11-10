@@ -19,8 +19,15 @@ function test_get() {
 
 function test_missing() {
   const missingUrl = '/docs/Web/API/Window/Snoopy';
-  const msg = "redirects.get() does not work as intended."
+  const msg = "redirects.get() does not work as intended.";
   assert.equal(rd.get(missingUrl), undefined, msg)
+}
+
+function test_pathContents() {
+  const givenUrl = '/en-US/docs/Web/API/Window/Date';
+  const expectedRedirect = '/docs/Web/JavaScript/Reference/Global_Objects/Date';
+  const msg = "redirects.get() does not correctly remove the language code.";
+  assert.equal(rd.get(givenUrl), expectedRedirect, msg);
 }
 
 function test_URLTypes() {
@@ -33,4 +40,5 @@ function test_URLTypes() {
 
 test_get();
 test_missing();
+test_pathContents();
 test_URLTypes();

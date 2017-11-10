@@ -22,6 +22,10 @@ function Redirects() {
 }
 
 Redirects.prototype.get = function(find) {
+  //Just strip en-US for now.
+  if (find.startsWith('/en-US')) {
+    find = find.split('/en-US')[1];
+  }
   let result;
   result = this.redirects[find];
   if (typeof result !== 'undefined') {
