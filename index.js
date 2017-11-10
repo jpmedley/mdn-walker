@@ -24,6 +24,14 @@ const handle = getOutputFile(options.resultsFile);
 const list = new urllist.URLList(options.inputList, options.diffsOnly);
 const pngr = new pinger.Pinger(httpOptions);
 
+newTest();
+
+function newTest() {
+  if (list.length()) {
+    pngr.ping(list.get());
+  }
+}
+
 pngr.addListener('needsretry', (entry) => {
   if (entry.retry > 0) {
     entry.retry--;
