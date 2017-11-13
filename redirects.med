@@ -13,6 +13,8 @@
 /docs/Web/API/DOMMatrix/m*;/docs/Web/API/DOMMatrix
 /docs/Web/API/DOMMatrix/multiplySelf;/docs/Web/API/DOMMatrixReadOnly/multiplySelf
 /docs/Web/API/DOMMatrix/preMultiplySelf;/docs/Web/API/DOMMatrixReadOnly/preMultiplySelf
+/docs/Web/API/Request/formData;/docs/Web/API/Body/formData
+/docs/Web/API/Response/formData;/docs/Web/API/Body/formData
 /docs/Web/API/SharedArrayBuffer/*;/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer/*
 /docs/Web/API/WebAssembly/*;/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/*
 /docs/Web/API/Window/Atomics/*;/docs/Web/JavaScript/Reference/Global_Objects/Atomics/*
