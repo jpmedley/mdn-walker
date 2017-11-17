@@ -15,22 +15,25 @@ function Pinger(httpOptions) {
 Pinger.prototype.ping = function(entry) {
   this.options.path = entry.url;
   let me = this;
+  if (entry.url.includes('DOMMatrix/a')) {
+    console.log('yeah!');
+  }
   https.get(this.options, (res) => {
-    me.statusCode = res.statusCode;
-    if (res.statusCode.toString().match(/3\d\d/)!=null) {
+    me.statusCode = res.statusCode.toString();
+    if (me.statusCode.match(/3\d\d/)!=null) {
       this.emit('found');
     }
-    else if (res.statusCode.toString().match(/4\d\d/)!==null) {
+    else if (me.statusCode.match(/4\d\d/)!==null) {
       this.emit('missing', entry);
     }
-    else if (res.statusCode.toString().match(/5\d\d/)!=null) {
+    else if (me.statusCode.match(/5\d\d/)!=null) {
       this.emit('needsretry', entry);
     }
     res.on('data', (chunk) => {
       res.resume();
     })
     res.on('end', () => {
-      if (this.statusCode.toString().match(/2\d\d/)!=null) {
+      if (me.statusCode.match(/2\d\d/)!=null) {
         this.emit('found');
       }
     })
