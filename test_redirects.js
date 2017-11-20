@@ -3,7 +3,7 @@
 const assert = require('assert');
 const redirects = require('./redirects');
 
-const rd = new redirects.Redirects();
+const rd = new redirects.Redirects('test_redirects.med');
 
 function test_get() {
   let givenUrl, expectedRedirect;
@@ -30,6 +30,13 @@ function test_pathContents() {
   assert.equal(rd.get(givenUrl), expectedRedirect, msg);
 }
 
+function test_regex() {
+  const givenURL = '/docs/Web/API/DOMMatrix/m12';
+  const expectedRedirect = '/docs/Web/API/DOMMatrix';
+  const msg = "redirects.get() cannot process regex."
+  assert.equal(rd.get(givenURL), expectedRedirect, msg);
+}
+
 function test_URLTypes() {
   let givenURL, expectedRedirect, msg;
   givenURL = '/docs/Web/API/DOMMatrix/a';
@@ -41,4 +48,5 @@ function test_URLTypes() {
 test_get();
 test_missing();
 test_pathContents();
+test_regex();
 test_URLTypes();
