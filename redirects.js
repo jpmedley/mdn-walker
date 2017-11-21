@@ -21,23 +21,38 @@ function Redirects(redirectsFile='redirects.med') {
 }
 
 Redirects.prototype.get = function(find) {
-  //Just strip en-US for now.
+  // Just strip en-US for now.
   if (find.startsWith('/en-US')) {
     find = find.split('/en-US')[1];
   }
 
+  // Check for a literal redirect.
   let result;
   result = this.redirects[find];
   if (typeof result !== 'undefined') {
     return result;
   }
 
+  // Check for a regex redirect.
   let objects = Object.entries(this.redirects);
   let found = objects.find(([key, value]) => {
     if (find.match(key)) { return true; }
     else { return false; }
   });
+  // If nothing was found, return that.
   if (found == undefined) { return found; }
+
+  // Check if the returned regex redirect has a keyword.
+  const keywordRegex = /\{(\w+)\}/;
+  let value = found[1].match(keywordRegex);
+  if (value) {
+    switch (value[1]) {
+      case 'ibid':
+        let last = find.substring(find.lastIndexOf('/')+1, find.length);
+        found[1] = found[1].replace(value[0], last);
+    }
+  }
+
   return found[1];
 }
 
