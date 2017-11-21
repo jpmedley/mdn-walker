@@ -1,4 +1,6 @@
 /docs/Web/API/Window/Date;/docs/Web/JavaScript/Reference/Global_Objects/Date
 /docs/Web/API/Window/Date/now;/docs/Web/JavaScript/Reference/Global_Objects/Date/now
 /docs/Web/API/DOMMatrix/m\d{1,2};/docs/Web/API/DOMMatrix
+/docs/Web/API/DOMPoint/[w-z]{1};/docs/Web/API/DOMPointReadOnly/{ibid}
+/docs/Web/API/DOMRect/*;/docs/Web/API/DOMRectReadOnly/{ibid}
 /docs/Web/API/DOMMatrix/a;/docs/Web/API/DOMMatrix

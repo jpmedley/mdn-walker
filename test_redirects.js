@@ -17,6 +17,17 @@ function test_get() {
   assert.equal(rd.get(givenUrl), expectedRedirect, msg);
 }
 
+function test_keywords() {
+  let givenURL = '/docs/Web/API/DOMPoint/w';
+  let expectedRedirect = '/docs/Web/API/DOMPointReadOnly/w';
+  const msg = "redirects.get() cannot process keyword redirects.";
+  assert.equal(rd.get(givenURL), expectedRedirect, msg);
+
+  givenURL = '/docs/Web/API/DOMRect/left';
+  expectedRedirect = '/docs/Web/API/DOMRectReadOnly/left';
+  assert.equal(rd.get(givenURL), expectedRedirect, msg)
+}
+
 function test_missing() {
   const missingUrl = '/docs/Web/API/Window/Snoopy';
   const msg = "redirects.get() does not work as intended.";
@@ -46,6 +57,7 @@ function test_URLTypes() {
 }
 
 test_get();
+test_keywords();
 test_missing();
 test_pathContents();
 test_regex();
