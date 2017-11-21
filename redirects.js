@@ -28,9 +28,10 @@ Redirects.prototype.get = function(find) {
 
   let result;
   result = this.redirects[find];
-  if (typeof result !== 'undefined') {
-    return result;
-  }
+  if (result) { return result; }
+  // if (typeof result !== undefined) {
+  //   return result;
+  // }
 
   let objects = Object.entries(this.redirects);
   let found = objects.find(([key, value]) => {
