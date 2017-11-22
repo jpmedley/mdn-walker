@@ -1,6 +1,4 @@
 require('foam2')
-require('confluence/lib/confluence/set_ops.es6.js')
-require('confluence/lib/dao_container.es6.js')
 require('confluence/lib/dao_container.es6.js')
 require('confluence/lib/web_apis/release_interface_relationship.es6.js')
 const pkg = org.chromium.apis.web
