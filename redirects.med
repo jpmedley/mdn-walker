@@ -1,12 +1,12 @@
-/docs/Web/API/DOMMatrix/\w[a-f];/docs/Web/API/DOMMatrix
+/docs/Web/API/DOMMatrix/[a-f]{1};/docs/Web/API/DOMMatrix
 /docs/Web/API/DOMMatrix/m\d{1,2};/docs/Web/API/DOMMatrix
+/docs/Web/API/DOMMatrixReadOnly/[a-f]{1};/docs/Web/API/DOMMatrixReadOnly
+/docs/Web/API/DOMMatrixReadOnly/m\d{1,2};/docs/Web/API/DOMMatrixReadOnly
+/docs/Web/API/DOMPoint/x;/docs/Web/API/DOMPointReadOnly/x
+/docs/Web/API/DOMPoint/y;/docs/Web/API/DOMPointReadOnly/y
+/docs/Web/API/DOMPoint/z;/docs/Web/API/DOMPointReadOnly/z
+/docs/Web/API/DOMPoint/w;/docs/Web/API/DOMPointReadOnly/w
 
-/docs/Web/API/DOMMatrixReadOnly/\w[a-f];/docs/Web/API/DOMMatrix
-
-/docs/Web/API/DOMMatrixReadOnly/m\d{1,2};/docs/Web/API/DOMMatrix
-/docs/Web/API/DOMMatrix/m*;/docs/Web/API/DOMMatrix
-/docs/Web/API/DOMMatrix/multiplySelf;/docs/Web/API/DOMMatrixReadOnly/multiplySelf
-/docs/Web/API/DOMMatrix/preMultiplySelf;/docs/Web/API/DOMMatrixReadOnly/preMultiplySelf
 /docs/Web/API/HTMLDocument/onvisibilitychange;/docs/Web/API/Document/onvisibilitychange
 /docs/Web/API/RegExp/*;/docs/Web/JavaScript/Reference/Global_Objects/RegExp/*
 /docs/Web/API/Request/formData;/docs/Web/API/Body/formData
