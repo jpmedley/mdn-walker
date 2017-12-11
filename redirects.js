@@ -48,8 +48,9 @@ Redirects.prototype.get = function(find) {
   if (value) {
     switch (value[1]) {
       case 'ibid':
-        let last = find.substring(find.lastIndexOf('/')+1, find.length);
-        found[1] = found[1].replace(value[0], last);
+        // Use the input filename in the redirect.
+        let fileName = find.substring(find.lastIndexOf('/')+1, find.length);
+        found[1] = found[1].replace(value[0], fileName);
     }
   }
 
