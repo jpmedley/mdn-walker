@@ -7,7 +7,7 @@ const pinger = require('./pinger');
 const redirects = require('./redirects');
 const urllist = require('./urllist');
 
-const RESULTS_DIR = 'results';
+const RESULTS_DIR = 'results'
 
 const options = {
   resultsFile: process.argv[2],
@@ -59,8 +59,12 @@ pngr.addListener('found', () => {
 
 function getOutputFile(fileName) {
   const outPath = path.join(RESULTS_DIR, fileName);
+  console.log(outPath);
   if (fs.existsSync(outPath)) {
     fs.unlinkSync(outPath);
+  }
+  if (!fs.existsSync(RESULTS_DIR)) {
+    fs.mkdirSync(RESULTS_DIR);
   }
   return fs.openSync(outPath, 'w');
 }
