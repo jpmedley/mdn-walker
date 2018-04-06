@@ -12,3 +12,5 @@ The tool pings this URL. If it's not found, it's dumped into a text file.
 ## Notes
 
 The current implementation has a high number of false positives. The reason for this is because of how MDN regularizes URLs. For example, the current script would turn a method such as `window.isFinite()` into `https://developer.mozilla.org/en-US/docs/Web/API/Window/isFinite`. In most cases, this straight forward conversion would be correct. Unfortunately, documentation for this method is located at `https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isFinite`. I haven't written code to correct this, but I am collecting false positives in [`redirects.med`](redirects.med).
+
+Keeps erring with 'Request path contains unescaped characters'. With 6000 lines in the input file, need to implement verbose output to learn which API has the wrong characters.
