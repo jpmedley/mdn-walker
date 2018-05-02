@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const querystring = require('querystring');
 const sl = require('./sourcelist');
 const URL_BASE = '/en-US/docs/Web/API';
 const RETRY_COUNT = 3;
@@ -15,8 +16,9 @@ function URLList(source, diffsOnly=false) {
     let line = csl.get();
     let props = line.split(',');
     if (props[0]!=interfaceName) {
-      interfaceName = props[0];
-      url = path.join(URL_BASE, props[0]);
+      // interfaceName = props[0];
+      interfaceName = querystring.escape(props[0]);
+      url = path.join(URL_BASE, interfaceName);
       let urlEntry = { url: url, retry: RETRY_COUNT }
       this.list.push(urlEntry)
     }
