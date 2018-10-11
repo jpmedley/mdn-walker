@@ -32,7 +32,11 @@ function newTest() {
   if (list.length()) {
     let urlObj = list.get();
     urlObj.url = reds.get(urlObj.url) || urlObj.url;
-    pngr.ping(urlObj);
+    try {
+      pngr.ping(urlObj);
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
 

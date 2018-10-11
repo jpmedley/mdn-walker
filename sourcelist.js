@@ -15,7 +15,9 @@ function ConfluenceSourceList(source, diffs_only=false) {
   })
   if (diffs_only) {
     this.lines = this.lines.filter((line) => {
-      return line.includes('false,true');
+      const normalLine = line.toLowerCase();
+      return normalLine.includes('"false","true"');
+      // return line.includes('false,true');
     })
   }
 }

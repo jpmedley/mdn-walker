@@ -18,34 +18,38 @@ Pinger.prototype.ping = function(entry) {
   if (entry.url.includes('DOMMatrix/a')) {
     console.log('yeah!');
   }
-  https.get(this.options, (res) => {
-    me.statusCode = res.statusCode.toString();
-    if (me.statusCode.match(/3\d\d/)!=null) {
-      this.emit('found');
-    }
-    else if (me.statusCode.match(/4\d\d/)!==null) {
-      this.emit('missing', entry);
-    }
-    else if (me.statusCode.match(/5\d\d/)!=null) {
-      this.emit('needsretry', entry);
-    }
-    res.on('data', (chunk) => {
-      res.resume();
-    })
-    res.on('end', () => {
-      if (me.statusCode.match(/2\d\d/)!=null) {
+  try {
+    https.get(this.options, (res) => {
+      me.statusCode = res.statusCode.toString();
+      if (me.statusCode.match(/3\d\d/)!=null) {
         this.emit('found');
       }
-    })
-    res.on('error', (e) => {
-      if (RECOVERABLE_ERRORS.includes(e.code)) {
+      else if (me.statusCode.match(/4\d\d/)!==null) {
+        this.emit('missing', entry);
+      }
+      else if (me.statusCode.match(/5\d\d/)!=null) {
         this.emit('needsretry', entry);
       }
-      else {
-        throw e;
-      }
-    })
-  })
+      res.on('data', (chunk) => {
+        res.resume();
+      })
+      res.on('end', () => {
+        if (me.statusCode.match(/2\d\d/)!=null) {
+          this.emit('found');
+        }
+      })
+      res.on('error', (e) => {
+        if (RECOVERABLE_ERRORS.includes(e.code)) {
+          this.emit('needsretry', entry);
+        }
+        else {
+          throw e;
+        }
+      });
+    });
+  } catch(e) {
+    console.log(e);
+  }
 }
 
 exports.Pinger = Pinger;

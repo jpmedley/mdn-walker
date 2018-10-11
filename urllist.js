@@ -15,6 +15,9 @@ function URLList(source, diffsOnly=false) {
     let url;
     let line = csl.get();
     let props = line.split(',');
+    props[0] = props[0].slice(1).slice(0, -1);
+    props[0] = props[0].replace(/\s/g, '_')
+    props = props[0].split('#')
     if (props[0]!=interfaceName) {
       // interfaceName = props[0];
       interfaceName = querystring.escape(props[0]);
